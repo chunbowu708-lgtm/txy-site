@@ -22,6 +22,13 @@ body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--sa
        font-size:15.5px; line-height:1.75;
        background-image:repeating-linear-gradient(0deg,transparent 0 23px,rgba(60,50,20,.014) 23px 24px); }
 .wrap { max-width:720px; margin:0 auto; padding:0 18px 56px; }
+@media (min-width:1180px) {
+  .wrap { max-width:1000px; padding:0 28px 64px; }
+  /* 桌面双栏：市场温度 + 鱼盆趋势并排，像日报两栏 */
+  .duo { display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start; }
+  .duo > * { min-width:0; }
+  .duo .quad-grid { grid-template-columns:1fr; }
+}
 
 /* ---------- 报头 ---------- */
 header.mast { padding:26px 0 12px; border-bottom:3px double var(--rule); margin-bottom:6px; }
@@ -73,6 +80,75 @@ section.decision { margin:20px 0 6px; padding:18px 18px 14px; background:var(--c
                       background:var(--paper); opacity:.82; margin-left:var(--w,0%);
                       transition:margin .6s ease; }
 .temp-sub { margin-top:8px; font-size:12.5px; color:var(--muted); line-height:1.8; }
+
+/* ---------- 温度计副指标：维度网格 / 轮动分化行 / 定调 / 置信度 ---------- */
+.dims { display:grid; grid-template-columns:repeat(4,1fr); gap:5px 10px; margin-top:12px; }
+.dim { display:flex; align-items:baseline; justify-content:space-between; gap:6px;
+        background:rgba(60,50,20,.045); border:1px solid var(--line); padding:4px 8px;
+        font-size:11.5px; line-height:1.4; }
+.dim-name { color:var(--muted); letter-spacing:.03em; }
+.dim-val { font-family:var(--mono); font-weight:700; color:var(--ink); }
+.mkts { margin-top:9px; display:flex; flex-direction:column; gap:5px; }
+.mktline { display:flex; gap:8px; align-items:baseline; font-size:12.5px; line-height:1.6;
+            background:var(--card); border:1px solid var(--line); padding:5px 9px; }
+.mktline b { flex:0 0 auto; color:var(--red-ink); font-weight:700; letter-spacing:.12em; }
+.verdict { margin-top:10px; padding:8px 11px; background:var(--card); border:1px dashed var(--rule);
+            font-size:13px; line-height:1.7; }
+.confidence { margin-top:8px; font-size:12px; color:var(--muted); }
+.confidence::before { content:"●"; color:var(--green); margin-right:5px; font-size:9px;
+                       vertical-align:1px; }
+
+/* ---------- 信息分块卡（市场温度 / 鱼盆） ---------- */
+.quad-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0 4px; }
+.qcard { background:var(--card); border:1px solid var(--line); padding:10px 12px;
+          min-width:0; }
+.qcard .ql { display:block; font-size:11px; color:var(--muted); letter-spacing:.28em;
+              margin-bottom:5px; }
+.qcard .qb { font-size:13.5px; line-height:1.65; }
+.qcard.warn { grid-column:1 / -1; border-left:3px solid var(--amber); background:var(--amber-soft);
+               border-top-color:var(--line); border-bottom-color:var(--line); border-right-color:var(--line);
+               color:#7a4a08; font-size:13px; }
+.qcard.adv { border-left:3px solid var(--green); color:#2c5e42; }
+.qcard.adv .ql { color:#2c5e42; }
+.qchips { display:flex; flex-wrap:wrap; gap:4px 6px; }
+.qchip { font-size:12px; padding:2px 7px; background:rgba(60,50,20,.05);
+          border:1px solid var(--line); white-space:nowrap; }
+.qchip b { margin-left:4px; font-family:var(--mono); color:var(--red-ink); }
+.ships { display:flex; gap:10px; margin:12px 0; }
+.ship { flex:1; background:var(--card); border:1px solid var(--line); padding:9px 12px;
+         text-align:center; }
+.ship .n { display:block; font-family:var(--serif); font-size:26px; font-weight:900;
+            line-height:1.1; }
+.ship .l { font-size:11px; color:var(--muted); letter-spacing:.3em; margin-top:3px; }
+.ship.on .n { color:var(--red-ink); }
+.ship.off .n { color:var(--green); }
+.panels { display:flex; flex-direction:column; gap:9px; margin:4px 0 4px; }
+.panel { padding:9px 12px; border:1px solid var(--line); background:var(--card); }
+.panel p { margin:0; display:flex; flex-wrap:wrap; gap:4px 6px; align-items:baseline; }
+.panel .pl { flex:0 0 auto; font-weight:700; font-size:12.5px; letter-spacing:.2em; }
+.panel.g { border-left:3px solid var(--green); }
+.panel.g .pl { color:var(--green); }
+.panel.r { border-left:3px solid var(--red); }
+.panel.r .pl { color:var(--red-ink); }
+.pchip { font-size:12px; padding:2px 8px; border:1px solid var(--line); white-space:nowrap; }
+.panel.g .pchip { background:var(--green-soft); border-color:#c4dccb; color:#2c5e42; }
+.panel.r .pchip { background:var(--red-soft); border-color:#e3c2be; color:var(--red-ink); }
+.sec-sub { display:block; font-size:12.5px; color:var(--muted); font-weight:400;
+            letter-spacing:.05em; margin-top:2px; }
+
+/* ---------- 信号雷达统计条 ---------- */
+.scanstats { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:10px 0 2px; }
+.sstat { font-size:12px; padding:3px 9px; border:1px solid var(--line); background:var(--card); }
+.sstat b { font-family:var(--mono); font-size:13.5px; margin:0 2px; }
+.sstat.opp { border-color:#d9a7a2; background:var(--red-soft); color:var(--red-ink); }
+.sstat.risk { border-color:#a8cbb8; background:var(--green-soft); color:#2c5e42; }
+.sstat.full { color:var(--muted); border-color:var(--rule); }
+
+@media (max-width:600px) {
+  .dims { grid-template-columns:repeat(2,1fr); }
+  .quad-grid { grid-template-columns:1fr; }
+  .qcard.warn { grid-column:auto; }
+}
 
 /* ---------- 正文 ---------- */
 main { display:block; }
@@ -192,47 +268,29 @@ footer a { color:var(--muted); }
 <header class="mast">
   <div class="mast-top">
     <a class="brand" href="/txy-site/">投小研<small>每 日 简 报</small></a>
-    <div class="mast-meta"><b>2026年8月22日 · 周六</b>第 52 期 · 数据仅供个人参考</div>
+    <div class="mast-meta"><b>2026年8月23日 · 周日</b>第 53 期 · 数据仅供个人参考</div>
   </div>
   <div class="hactions">
     <a class="dash" href="/txy-site/app/">📊 仪表盘</a>
     <select onchange="if(this.value)location.href=this.value" aria-label="选择日期">
-    <option value="">📅 往期…</option><option value="archive/2026-08-22.html" selected>2026-08-22</option><option value="archive/2026-08-21.html">2026-08-21</option><option value="archive/2026-08-20.html">2026-08-20</option><option value="archive/2026-08-19.html">2026-08-19</option><option value="archive/2026-08-18.html">2026-08-18</option><option value="archive/2026-08-17.html">2026-08-17</option><option value="archive/2026-08-16.html">2026-08-16</option><option value="archive/2026-08-15.html">2026-08-15</option><option value="archive/2026-08-13.html">2026-08-13</option><option value="archive/2026-08-12.html">2026-08-12</option><option value="archive/2026-08-11.html">2026-08-11</option><option value="archive/2026-08-10.html">2026-08-10</option><option value="archive/2026-08-09.html">2026-08-09</option><option value="archive/2026-08-07.html">2026-08-07</option><option value="archive/2026-08-06.html">2026-08-06</option><option value="archive/2026-08-05.html">2026-08-05</option><option value="archive/2026-08-03.html">2026-08-03</option><option value="archive/2026-08-02.html">2026-08-02</option><option value="archive/2026-07-31.html">2026-07-31</option><option value="archive/2026-07-30.html">2026-07-30</option><option value="archive/2026-07-29.html">2026-07-29</option><option value="archive/2026-07-28.html">2026-07-28</option><option value="archive/2026-07-27.html">2026-07-27</option><option value="archive/2026-07-26.html">2026-07-26</option><option value="archive/2026-07-25.html">2026-07-25</option><option value="archive/2026-07-23.html">2026-07-23</option><option value="archive/2026-07-22.html">2026-07-22</option><option value="archive/2026-07-21.html">2026-07-21</option><option value="archive/2026-07-20.html">2026-07-20</option><option value="archive/2026-07-19.html">2026-07-19</option><option value="archive/2026-07-18.html">2026-07-18</option><option value="archive/2026-07-17.html">2026-07-17</option><option value="archive/2026-07-16.html">2026-07-16</option><option value="archive/2026-07-15.html">2026-07-15</option><option value="archive/2026-07-14.html">2026-07-14</option><option value="archive/2026-07-13.html">2026-07-13</option><option value="archive/2026-07-12.html">2026-07-12</option><option value="archive/2026-07-11.html">2026-07-11</option><option value="archive/2026-07-10.html">2026-07-10</option><option value="archive/2026-07-09.html">2026-07-09</option><option value="archive/2026-07-08.html">2026-07-08</option><option value="archive/2026-07-07.html">2026-07-07</option><option value="archive/2026-07-06.html">2026-07-06</option><option value="archive/2026-07-05.html">2026-07-05</option><option value="archive/2026-07-04.html">2026-07-04</option><option value="archive/2026-07-02.html">2026-07-02</option><option value="archive/2026-06-29.html">2026-06-29</option><option value="archive/2026-06-28.html">2026-06-28</option><option value="archive/2026-06-27.html">2026-06-27</option><option value="archive/2026-06-23.html">2026-06-23</option><option value="archive/2026-06-22.html">2026-06-22</option><option value="archive/2026-06-19.html">2026-06-19</option>
+    <option value="">📅 往期…</option><option value="archive/2026-08-23.html" selected>2026-08-23</option><option value="archive/2026-08-22.html">2026-08-22</option><option value="archive/2026-08-21.html">2026-08-21</option><option value="archive/2026-08-20.html">2026-08-20</option><option value="archive/2026-08-19.html">2026-08-19</option><option value="archive/2026-08-18.html">2026-08-18</option><option value="archive/2026-08-17.html">2026-08-17</option><option value="archive/2026-08-16.html">2026-08-16</option><option value="archive/2026-08-15.html">2026-08-15</option><option value="archive/2026-08-13.html">2026-08-13</option><option value="archive/2026-08-12.html">2026-08-12</option><option value="archive/2026-08-11.html">2026-08-11</option><option value="archive/2026-08-10.html">2026-08-10</option><option value="archive/2026-08-09.html">2026-08-09</option><option value="archive/2026-08-07.html">2026-08-07</option><option value="archive/2026-08-06.html">2026-08-06</option><option value="archive/2026-08-05.html">2026-08-05</option><option value="archive/2026-08-03.html">2026-08-03</option><option value="archive/2026-08-02.html">2026-08-02</option><option value="archive/2026-07-31.html">2026-07-31</option><option value="archive/2026-07-30.html">2026-07-30</option><option value="archive/2026-07-29.html">2026-07-29</option><option value="archive/2026-07-28.html">2026-07-28</option><option value="archive/2026-07-27.html">2026-07-27</option><option value="archive/2026-07-26.html">2026-07-26</option><option value="archive/2026-07-25.html">2026-07-25</option><option value="archive/2026-07-23.html">2026-07-23</option><option value="archive/2026-07-22.html">2026-07-22</option><option value="archive/2026-07-21.html">2026-07-21</option><option value="archive/2026-07-20.html">2026-07-20</option><option value="archive/2026-07-19.html">2026-07-19</option><option value="archive/2026-07-18.html">2026-07-18</option><option value="archive/2026-07-17.html">2026-07-17</option><option value="archive/2026-07-16.html">2026-07-16</option><option value="archive/2026-07-15.html">2026-07-15</option><option value="archive/2026-07-14.html">2026-07-14</option><option value="archive/2026-07-13.html">2026-07-13</option><option value="archive/2026-07-12.html">2026-07-12</option><option value="archive/2026-07-11.html">2026-07-11</option><option value="archive/2026-07-10.html">2026-07-10</option><option value="archive/2026-07-09.html">2026-07-09</option><option value="archive/2026-07-08.html">2026-07-08</option><option value="archive/2026-07-07.html">2026-07-07</option><option value="archive/2026-07-06.html">2026-07-06</option><option value="archive/2026-07-05.html">2026-07-05</option><option value="archive/2026-07-04.html">2026-07-04</option><option value="archive/2026-07-02.html">2026-07-02</option><option value="archive/2026-06-29.html">2026-06-29</option><option value="archive/2026-06-28.html">2026-06-28</option><option value="archive/2026-06-27.html">2026-06-27</option><option value="archive/2026-06-23.html">2026-06-23</option><option value="archive/2026-06-22.html">2026-06-22</option><option value="archive/2026-06-19.html">2026-06-19</option>
     </select>
   </div>
 </header>
 <main>
-<article><h1>📈 投小研每日简报 2026-08-22</h1>
+<article><h1>📈 投小研每日简报 2026-08-23</h1>
 
-<div class="temp"><div class="temp-head"><span class="temp-title">大盘温度计</span><span class="temp-band" style="color:#caa128">中性</span><span class="temp-val">59.2<small> / 100</small></span></div><div class="temp-track" style="--w:59%" title="59.2"></div><div class="temp-sub"><blockquote>
-  <p>涨跌停情绪 3.0 ｜ 涨跌家数 3.0 ｜ 板块温度 2.0 ｜ 趋势宽度 3.0 ｜ 技术面·上证 5.0 ｜ 短期趋势 5.0 ｜ 中长期趋势 0.0 ｜ 量能 2.0
-  轮动：大盘略占优（沪深300 5日 -1.0% vs 中证1000 -2.2%） ｜ 分化：涨跌集中（最强 +1.3% / 最弱 -2.9%，差 4.2pct）
-  <strong>定调</strong>：中性（59.2）—— 正常看个股，重结构轻指数，等更好的赔率
-  数据置信度：高（8/8 维度可用）</p>
+<blockquote>
+  <p>⚠️ 财报季提醒：距「中报」披露截止（2026-08-31）还有 8 天——未披露个股警惕业绩雷；ST池个股的财报直接决定摘帽节奏，仓位纪律优先</p>
 </blockquote>
 
-</div></div><section class="decision"><div class="decision-row"><div class="seal">谨慎</div><div><div class="d-kicker">今 日 决 策</div><div class="d-head"><em>谨慎</em> — 市场分化，轻仓试错为主</div></div></div><p><strong>依据</strong>：大盘偏强、高等级风险(R1+R2=74)多于机会(A+B=15)</p><blockquote>
+<div class="temp"><div class="temp-head"><span class="temp-title">大盘温度计</span><span class="temp-band" style="color:#caa128">偏暖</span><span class="temp-val">64.8<small> / 100</small></span></div><div class="temp-track" style="--w:65%" title="64.8"></div><div class="temp-sub"><div class="dims"><span class="dim"><span class="dim-name">涨跌停情绪</span><span class="dim-val">3.0</span></span><span class="dim"><span class="dim-name">涨跌家数</span><span class="dim-val">3.0</span></span><span class="dim"><span class="dim-name">板块温度</span><span class="dim-val">4.0</span></span><span class="dim"><span class="dim-name">趋势宽度</span><span class="dim-val">3.0</span></span><span class="dim"><span class="dim-name">技术面·上证</span><span class="dim-val">5.0</span></span><span class="dim"><span class="dim-name">短期趋势</span><span class="dim-val">5.0</span></span><span class="dim"><span class="dim-name">中长期趋势</span><span class="dim-val">0.0</span></span><span class="dim"><span class="dim-name">量能</span><span class="dim-val">2.0</span></span></div><div class="mkts"><div class="mktline"><b>轮动</b><span>大盘略占优（沪深300 5日 -1.0% vs 中证1000 -2.2%） ｜ 分化：分化明显（最强 +2.6% / 最弱 -2.9%，差 5.5pct）</span></div></div><div class="verdict"><strong>定调</strong>：偏暖（64.8）—— 可正常参与，注意仓位纪律与买前四问</div><div class="confidence">数据置信度：高（8/8 维度可用）</div></div></div><section class="decision"><div class="decision-row"><div class="seal">谨慎</div><div><div class="d-kicker">今 日 决 策</div><div class="d-head"><em>谨慎</em> — 市场分化，轻仓试错为主</div></div></div><p><strong>依据</strong>：大盘偏强、高等级风险(R1+R2=84)多于机会(A+B=19)</p><blockquote>
   <p>⚠️ 数据质量：中（大盘数据为最近快照；扫描数据日期 2026-08-21）</p>
 </blockquote></section>
 
-<h2>市场温度：情绪偏强，温和</h2>
+<div class="duo"><section class="duo-item"><h2>市场温度<span class="sec-sub">情绪偏强，温和</span></h2><div class="quad-grid"><div class="qcard"><span class="ql">大盘</span><div class="qchips"><span class="qchip">上证指数<b>+0.04%</b></span><span class="qchip">深证成指<b>+0.87%</b></span><span class="qchip">创业板指<b>+1.43%</b></span><span class="qchip">科创50<b>+0.04%</b></span></div></div><div class="qcard"><span class="ql">量能</span><div class="qb">1.88万亿（缩量9.6%，-1998亿）</div></div><div class="qcard warn"><div class="qb">⚠️ 成交额较基准缩量 9.6%，追强持续性要打折。</div></div><div class="qcard adv"><span class="ql">建议</span><div class="qb">少做筛选</div></div></div></section><section class="duo-item"><h2>鱼盆趋势</h2><div class="ships"><div class="ship on"><span class="n">23</span><span class="l">船上</span></div><div class="ship off"><span class="n">22</span><span class="l">掉车</span></div></div><div class="panels"><div class="panel g"><p><span class="pl">可关注</span><span class="pchip">白银现货</span><span class="pchip">黄金现货</span><span class="pchip">微盘股</span><span class="pchip">台湾加权</span><span class="pchip">恒生指数</span></p></div><div class="panel r"><p><span class="pl">需回避</span><span class="pchip">北证50</span><span class="pchip">科创50</span><span class="pchip">创业板指</span><span class="pchip">中证1000</span><span class="pchip">中证2000</span></p></div></div></section></div>
 
-<ul>
-<li>大盘：上证指数+0.04% 深证成指+0.87% 创业板指+1.43% 科创50+0.04%</li>
-<li>量能：1.88万亿（缩量9.6%，-1998亿）</li>
-<li>⚠️ 成交额较基准缩量 9.6%，追强持续性要打折。</li>
-<li><strong>建议</strong>：少做筛选</li>
-</ul>
-
-<h2>鱼盆趋势</h2>
-
-<ul>
-<li>船上 14 / 掉车 13</li>
-<li>🟢 可关注：白银现货、黄金现货、微盘股、恒生指数、国企指数</li>
-<li>🔴 需回避：北证50、科创50、创业板指、中证1000、中证2000</li>
-</ul>
-
-<h2>信号雷达（表内机会 11 只 ｜ 表内风险 21 只；全量评级 A0/B15/C69 · R110/R264/R367）</h2>
+<h2>信号雷达</h2><div class="scanstats"><span class="sstat opp">机会 <b>14</b> 只</span><span class="sstat risk">风险 <b>37</b> 只</span><span class="sstat full">全量评级 A4/B15/C65 · R126/R258/R357</span></div>
 
 <h3>趋势票 · 机会</h3>
 
@@ -241,11 +299,13 @@ footer a { color:var(--muted); }
 <tr></tr>
 </thead>
 <tbody>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">飞龙股份(002536)</td><td data-label="信号" class="c-signals"><span class="chip">早晨之星</span><span class="chip">KDJ金叉</span><span class="chip">主力连续净流入</span></td><td data-label="位置"><span class="pos pos-high">高位</span></td><td data-label="板块">—</td><td data-label="动作" class="c-action">连板动量：高波动，破板即走</td></tr>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">宁波精达(603088)</td><td data-label="信号" class="c-signals"><span class="chip">早晨之星</span><span class="chip">KDJ金叉</span><span class="chip">MACD金叉</span></td><td data-label="位置"><span class="pos pos-high">高位</span></td><td data-label="板块">—</td><td data-label="动作" class="c-action">高位：持仓者持有，空仓者勿追（破MA10离场）</td></tr>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">兴业银锡(000426)</td><td data-label="信号" class="c-signals"><span class="chip">早晨之星</span><span class="chip">KDJ金叉</span><span class="chip">主力连续净流入</span></td><td data-label="位置"><span class="pos pos-high">高位</span></td><td data-label="板块">—</td><td data-label="动作" class="c-action">高位：持仓者持有，空仓者勿追（破MA10离场）</td></tr>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">紫金矿业(601899)</td><td data-label="信号" class="c-signals"><span class="chip">红三兵</span><span class="chip">均线金叉</span><span class="chip">主力连续净流入</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="板块">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">长城汽车(601633)</td><td data-label="信号" class="c-signals"><span class="chip">OBV底背离</span></td><td data-label="位置"><span class="pos pos-low">低位</span></td><td data-label="板块">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
+<tr><td data-label="评级"><span class="rt rt-a">A</span></td><td data-label="票">飞龙股份(002536)</td><td data-label="信号" class="c-signals"><span class="chip">早晨之星</span><span class="chip">KDJ金叉</span><span class="chip">主力连续净流入</span></td><td data-label="位置">—</td><td data-label="板块">—</td><td data-label="动作" class="c-action">可研究进场（定失效位）</td></tr>
+<tr><td data-label="评级"><span class="rt rt-a">A</span></td><td data-label="票">宁波精达(603088)</td><td data-label="信号" class="c-signals"><span class="chip">早晨之星</span><span class="chip">KDJ金叉</span><span class="chip">MACD金叉</span></td><td data-label="位置">—</td><td data-label="板块">—</td><td data-label="动作" class="c-action">可研究进场（定失效位）</td></tr>
+<tr><td data-label="评级"><span class="rt rt-a">A</span></td><td data-label="票">兴业银锡(000426)</td><td data-label="信号" class="c-signals"><span class="chip">早晨之星</span><span class="chip">KDJ金叉</span><span class="chip">主力连续净流入</span></td><td data-label="位置">—</td><td data-label="板块">—</td><td data-label="动作" class="c-action">可研究进场（定失效位）</td></tr>
+<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">赣锋锂业(002460)</td><td data-label="信号" class="c-signals"><span class="chip">底部爆量K</span><span class="chip">看涨吞没</span></td><td data-label="位置">—</td><td data-label="板块">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
+<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">大元泵业(603757)</td><td data-label="信号" class="c-signals"><span class="chip">早晨之星</span><span class="chip">均线金叉</span><span class="chip">看涨吞没</span></td><td data-label="位置">—</td><td data-label="板块">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
+<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">紫金矿业(601899)</td><td data-label="信号" class="c-signals"><span class="chip">红三兵</span><span class="chip">均线金叉</span><span class="chip">主力连续净流入</span></td><td data-label="位置">—</td><td data-label="板块">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
+<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">山金国际(000975)</td><td data-label="信号" class="c-signals"><span class="chip">KDJ金叉</span><span class="chip">主力连续净流入</span></td><td data-label="位置">—</td><td data-label="板块">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
 </tbody>
 </table></div>
 
@@ -256,14 +316,26 @@ footer a { color:var(--muted); }
 <tr></tr>
 </thead>
 <tbody>
-<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">吉比特(603444)</td><td data-label="恶化信号" class="c-signals"><span class="chip">KDJ死叉</span><span class="chip">主力大幅减仓</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">巴比食品(605338)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">头肩顶</span><span class="chip">MACD死叉</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">北方华创(002371)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶</span><span class="chip">MACD死叉</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">江波龙(301308)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">鼎龙股份(300054)</td><td data-label="恶化信号" class="c-signals"><span class="chip">三只乌鸦</span><span class="chip">主力连续净流出</span><span class="chip">跌破均线</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">江丰电子(300666)</td><td data-label="恶化信号" class="c-signals"><span class="chip">三只乌鸦</span><span class="chip">主力连续净流出</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">华润江中(600750)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">巨星科技(002444)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">头肩顶</span><span class="chip">KDJ死叉</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">巴比食品(605338)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">头肩顶</span><span class="chip">MACD死叉</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">鼎龙股份(300054)</td><td data-label="恶化信号" class="c-signals"><span class="chip">三只乌鸦</span><span class="chip">主力连续净流出</span><span class="chip">跌破均线</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">中国卫通(601698)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">MACD死叉</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">航天工程(603698)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">主力大幅减仓（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">江波龙(301308)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">航天电子(600879)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">中国卫星(600118)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">巨星科技(002444)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">头肩顶</span><span class="chip">KDJ死叉</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">北方华创(002371)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶</span><span class="chip">MACD死叉</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">航天发展(000547)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">MACD死叉</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">吉比特(603444)</td><td data-label="恶化信号" class="c-signals"><span class="chip">KDJ死叉</span><span class="chip">主力大幅减仓</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">华润江中(600750)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">匠心家居(301061)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">科博达(603786)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">江丰电子(300666)</td><td data-label="恶化信号" class="c-signals"><span class="chip">三只乌鸦</span><span class="chip">主力连续净流出</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">宝钢股份(600019)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">看跌吞没</span><span class="chip">黄昏之星</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">甘李药业(603087)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">跌破均线</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">东方电气(600875)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">MACD死叉（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">宁波华翔(002048)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">茂莱光学(688502)</td><td data-label="恶化信号" class="c-signals"><span class="chip">高位十字星</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
 </tbody>
 </table></div>
 
@@ -274,9 +346,10 @@ footer a { color:var(--muted); }
 <tr></tr>
 </thead>
 <tbody>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">大元泵业(603757)</td><td data-label="信号" class="c-signals"><span class="chip">早晨之星</span><span class="chip">均线金叉</span><span class="chip">看涨吞没</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="板块">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">安井食品(603345)</td><td data-label="信号" class="c-signals"><span class="chip">OBV底背离</span></td><td data-label="位置"><span class="pos pos-low">低位</span></td><td data-label="板块">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">平安银行(000001)</td><td data-label="信号" class="c-signals"><span class="chip">红三兵</span><span class="chip">均线金叉</span><span class="chip">双底</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="板块">🟢</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
+<tr><td data-label="评级"><span class="rt rt-a">A</span></td><td data-label="票">招商轮船(601872)</td><td data-label="信号" class="c-signals"><span class="chip">布林突破</span></td><td data-label="位置">—</td><td data-label="板块">🟢国证红利</td><td data-label="动作" class="c-action">可研究进场（定失效位）</td></tr>
+<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">平安银行(000001)</td><td data-label="信号" class="c-signals"><span class="chip">红三兵</span><span class="chip">均线金叉</span><span class="chip">双底</span></td><td data-label="位置">—</td><td data-label="板块">🟢国证红利</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
+<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">菜百股份(605599)</td><td data-label="信号" class="c-signals"><span class="chip">KDJ金叉</span></td><td data-label="位置">—</td><td data-label="板块">🟢国证红利</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
+<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">安井食品(603345)</td><td data-label="信号" class="c-signals"><span class="chip">OBV底背离</span></td><td data-label="位置">—</td><td data-label="板块">🟢国证红利</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
 </tbody>
 </table></div>
 
@@ -287,16 +360,20 @@ footer a { color:var(--muted); }
 <tr></tr>
 </thead>
 <tbody>
-<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">立高食品(300973)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">MACD死叉</span><span class="chip">跌破均线</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">乖宝宠物(301498)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶</span><span class="chip">头肩顶（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置"><span class="pos pos-low">低位</span></td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">重百集团(600729)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">头肩顶</span><span class="chip">看跌吞没</span></td><td data-label="位置"><span class="pos pos-low">低位</span></td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">中宠股份(002891)</td><td data-label="恶化信号" class="c-signals"><span class="chip">三只乌鸦</span><span class="chip">主力连续净流出</span><span class="chip">双顶</span></td><td data-label="位置"><span class="pos pos-low">低位</span></td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">有友食品(603697)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶</span></td><td data-label="位置"><span class="pos pos-low">低位</span></td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">马应龙(600993)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">KDJ死叉</span></td><td data-label="位置"><span class="pos pos-low">低位</span></td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">杭州银行(600926)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">看跌吞没</span><span class="chip">黄昏之星（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置"><span class="pos pos-high">高位</span></td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">森马服饰(002563)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">KDJ死叉</span></td><td data-label="位置"><span class="pos pos-low">低位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">广日股份(600894)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">KDJ死叉</span><span class="chip">MACD死叉</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">史丹利(002588)</td><td data-label="恶化信号" class="c-signals"><span class="chip">三只乌鸦</span><span class="chip">双顶</span></td><td data-label="位置"><span class="pos pos-low">低位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">重百集团(600729)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">头肩顶</span><span class="chip">看跌吞没</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">中宠股份(002891)</td><td data-label="恶化信号" class="c-signals"><span class="chip">三只乌鸦</span><span class="chip">主力连续净流出</span><span class="chip">双顶</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">立高食品(300973)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">MACD死叉</span><span class="chip">跌破均线</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">马应龙(600993)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">KDJ死叉</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">乖宝宠物(301498)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶</span><span class="chip">头肩顶（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">有友食品(603697)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">史丹利(002588)</td><td data-label="恶化信号" class="c-signals"><span class="chip">三只乌鸦</span><span class="chip">双顶</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">广日股份(600894)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">KDJ死叉</span><span class="chip">MACD死叉</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">森马服饰(002563)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">KDJ死叉</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">盐津铺子(002847)</td><td data-label="恶化信号" class="c-signals"><span class="chip">三只乌鸦</span><span class="chip">头肩顶</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R1</span></td><td data-label="票">长江电力(600900)</td><td data-label="恶化信号" class="c-signals"><span class="chip">头肩顶</span><span class="chip">黄昏之星</span><span class="chip">KDJ死叉</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">执行减仓/止损</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">华能蒙电(600863)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">新奥股份(600803)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">跌破均线</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">粤高速Ａ(000429)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶</span><span class="chip">头肩顶（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
 </tbody>
 </table></div>
 
@@ -307,9 +384,9 @@ footer a { color:var(--muted); }
 <tr></tr>
 </thead>
 <tbody>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">*ST天箭(002977)</td><td data-label="事件轨" class="c-signals"><span class="chip">—</span></td><td data-label="形态轨" class="c-signals"><span class="chip">早晨之星</span><span class="chip">看涨吞没</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">ST得润(002055)</td><td data-label="事件轨" class="c-signals"><span class="chip">放量突破</span></td><td data-label="形态轨" class="c-signals"><span class="chip">布林突破</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
-<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">ST八菱(002592)</td><td data-label="事件轨" class="c-signals"><span class="chip">放量突破</span></td><td data-label="形态轨" class="c-signals"><span class="chip">布林突破</span></td><td data-label="位置"><span class="pos pos-high">高位</span></td><td data-label="动作" class="c-action">高位：持仓者持有，空仓者勿追（破MA10离场）</td></tr>
+<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">*ST天箭(002977)</td><td data-label="事件轨" class="c-signals"><span class="chip">—</span></td><td data-label="形态轨" class="c-signals"><span class="chip">早晨之星</span><span class="chip">看涨吞没</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
+<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">ST得润(002055)</td><td data-label="事件轨" class="c-signals"><span class="chip">放量突破</span></td><td data-label="形态轨" class="c-signals"><span class="chip">布林突破</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
+<tr><td data-label="评级"><span class="rt rt-b">B</span></td><td data-label="票">ST八菱(002592)</td><td data-label="事件轨" class="c-signals"><span class="chip">放量突破</span></td><td data-label="形态轨" class="c-signals"><span class="chip">布林突破</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">观察，条件补齐可升级</td></tr>
 </tbody>
 </table></div>
 
@@ -320,83 +397,24 @@ footer a { color:var(--muted); }
 <tr></tr>
 </thead>
 <tbody>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">传智教育(003032)</td><td data-label="恶化信号" class="c-signals"><span class="chip">跌停</span><span class="chip">主力连续净流出</span><span class="chip">向下缺口</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">*ST和科(002816)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶</span><span class="chip">MACD死叉</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
-<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">中青宝(300052)</td><td data-label="恶化信号" class="c-signals"><span class="chip">双顶</span><span class="chip">MACD死叉</span><span class="chip">跌破均线</span></td><td data-label="位置"><span class="pos ">中位</span></td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">传智教育(003032)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">向下缺口</span><span class="chip">黄昏之星</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">硅宝科技(300019)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">双顶</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
+<tr><td data-label="评级"><span class="rt rt-r">R2</span></td><td data-label="票">*ST帅电(605336)</td><td data-label="恶化信号" class="c-signals"><span class="chip">主力连续净流出</span><span class="chip">向下缺口</span><span class="chip">跌破均线（多空冲突</span><span class="chip">先复核结构）</span></td><td data-label="位置">—</td><td data-label="动作" class="c-action">收紧止损，盯确认</td></tr>
 </tbody>
 </table></div>
 
 <blockquote>
-  <p>另有 C级弱机会 69 只 ｜ R3级弱风险 67 只 ｜ 限额截断 57 只（每类只列 B/R2 前3-5）</p>
+  <p>⚠️ 财报季（中报截止 2026-08-31，还剩 8 天）：ST池个股的财报直接决定摘帽节奏——潜伏仓位在此窗口降杠杆、不加仓
+  另有 C级弱机会 65 只 ｜ R3级弱风险 57 只 ｜ 限额截断 52 只（每类只列 B/R2 前3-5）</p>
 </blockquote>
 
 <hr />
 
-<p><em>由投小研助手自动生成 · 2026-08-22</em></p>
-
-<h3>📋 今日池变动</h3><details class="churn"><summary>展开全部 50 条变动</summary><ul>
-<li>14:34 移出：三羊马(001317)</li>
-<li>14:34 移出：声迅股份(003004)</li>
-<li>14:34 移出：水羊股份(300740)</li>
-<li>14:34 移出：申华控股(600653)</li>
-<li>14:34 移出：中捷资源(002021)</li>
-<li>14:34 移出：红太阳(000525)</li>
-<li>14:34 移出：胜利精密(002426)</li>
-<li>14:34 改动：华峰测控(688200)（logic、thesis_summary）</li>
-<li>14:34 移出：华峰转债(118071)</li>
-<li>14:34 改动：金诚信(603979)（logic、thesis_summary）</li>
-<li>14:34 移出：金25转债(113699)</li>
-<li>14:34 改动：安克创新(300866)（logic、thesis_summary）</li>
-<li>14:34 移出：安克转债(123257)</li>
-<li>14:34 改动：欧陆通(300870)（logic、thesis_summary）</li>
-<li>14:34 移出：欧通转债(123241)</li>
-<li>14:34 改动：精测电子(300567)（logic、thesis_summary）</li>
-<li>14:34 移出：精测转2(123176)</li>
-<li>14:34 入池：福莱新材(605488)</li>
-<li>14:34 移出：福新转债(111012)</li>
-<li>14:34 入池：微导纳米(688147)</li>
-<li>14:34 移出：微导转债(118058)</li>
-<li>14:34 入池：茂莱光学(688502)</li>
-<li>14:34 移出：茂莱转债(118061)</li>
-<li>14:34 入池：金盘科技(688676)</li>
-<li>14:34 移出：金05转债(118063)</li>
-<li>14:34 入池：联瑞新材(688300)</li>
-<li>14:34 移出：联瑞转债(118064)</li>
-<li>14:34 入池：科思股份(300856)</li>
-<li>14:34 移出：科思转债(123192)</li>
-<li>14:34 入池：集智股份(300553)</li>
-<li>14:34 移出：集智转债(123245)</li>
-<li>14:34 入池：运机集团(001288)</li>
-<li>14:34 移出：运机转债(127092)</li>
-<li>14:34 改动：鼎龙股份(300054)（category、concept、logic、risk_note）</li>
-<li>14:34 移出：鼎龙转债(123255)</li>
-<li>14:34 改动：尔康制药(300267)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：双成药业(002693)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：儒意电影(002739)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：博纳影业(001330)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：中国电影(600977)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：青山纸业(600103)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：红豆股份(600400)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：亚泰集团(600881)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：美邦服饰(002269)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：模塑科技(000700)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：宏和科技(603256)（concept、logic、risk<em>note、thesis</em>summary）</li>
-<li>14:34 改动：富维股份(600742)（concept、logic、risk<em>note、thesis</em>summary）</li>
-<li>14:34 改动：苏美达(600710)（category、concept、logic、risk_note）</li>
-<li>14:34 改动：中通客车(000957)（concept、logic、risk<em>note、thesis</em>summary）</li>
-<li>14:34 改动：长城科技(603897)（category、concept、logic、risk_note）</li>
-</ul></details>
-
-<h3>⚠️ 标的池有未同步的变更</h3>
-
-<p>云端/巡检映射表与库不一致，简报与巡检可能基于旧池：
-- [skill] 库里有、映射表没有 8 只：001288.SZ, 300553.SZ, 300856.SZ, 605488.SH, 688147.SH, 688300.SH…
-- [skill] 186 只字段与映射表不一致：000001.SZ(方向,概念); 000333.SZ(方向); 000338.SZ(概念); 000408.SZ(方向); 000426.SZ(概念); 000429.SZ(方向)…
-- 处理：<code>python scripts/watchlist_seed.py export</code> + <code>python scripts/export_stock_map.py</code>，然后 git 提交推送</p>
+<p><em>由投小研助手自动生成 · 2026-08-23</em></p>
 </article>
 <nav class="daylist">
 <h2>往 期</h2>
-<ul><li><a class="latest" href="archive/2026-08-22.html">08-22</a></li><li><a href="archive/2026-08-21.html">08-21</a></li><li><a href="archive/2026-08-20.html">08-20</a></li><li><a href="archive/2026-08-19.html">08-19</a></li><li><a href="archive/2026-08-18.html">08-18</a></li><li><a href="archive/2026-08-17.html">08-17</a></li><li><a href="archive/2026-08-16.html">08-16</a></li><li><a href="archive/2026-08-15.html">08-15</a></li><li><a href="archive/2026-08-13.html">08-13</a></li><li><a href="archive/2026-08-12.html">08-12</a></li><li><a href="archive/2026-08-11.html">08-11</a></li><li><a href="archive/2026-08-10.html">08-10</a></li><li><a href="archive/2026-08-09.html">08-09</a></li><li><a href="archive/2026-08-07.html">08-07</a></li><li><a href="archive/2026-08-06.html">08-06</a></li><li><a href="archive/2026-08-05.html">08-05</a></li><li><a href="archive/2026-08-03.html">08-03</a></li><li><a href="archive/2026-08-02.html">08-02</a></li><li><a href="archive/2026-07-31.html">07-31</a></li><li><a href="archive/2026-07-30.html">07-30</a></li><li><a href="archive/2026-07-29.html">07-29</a></li><li><a href="archive/2026-07-28.html">07-28</a></li><li><a href="archive/2026-07-27.html">07-27</a></li><li><a href="archive/2026-07-26.html">07-26</a></li><li><a href="archive/2026-07-25.html">07-25</a></li><li><a href="archive/2026-07-23.html">07-23</a></li><li><a href="archive/2026-07-22.html">07-22</a></li><li><a href="archive/2026-07-21.html">07-21</a></li><li><a href="archive/2026-07-20.html">07-20</a></li><li><a href="archive/2026-07-19.html">07-19</a></li><li><a href="archive/2026-07-18.html">07-18</a></li><li><a href="archive/2026-07-17.html">07-17</a></li><li><a href="archive/2026-07-16.html">07-16</a></li><li><a href="archive/2026-07-15.html">07-15</a></li><li><a href="archive/2026-07-14.html">07-14</a></li><li><a href="archive/2026-07-13.html">07-13</a></li><li><a href="archive/2026-07-12.html">07-12</a></li><li><a href="archive/2026-07-11.html">07-11</a></li><li><a href="archive/2026-07-10.html">07-10</a></li><li><a href="archive/2026-07-09.html">07-09</a></li><li><a href="archive/2026-07-08.html">07-08</a></li><li><a href="archive/2026-07-07.html">07-07</a></li><li><a href="archive/2026-07-06.html">07-06</a></li><li><a href="archive/2026-07-05.html">07-05</a></li><li><a href="archive/2026-07-04.html">07-04</a></li><li><a href="archive/2026-07-02.html">07-02</a></li><li><a href="archive/2026-06-29.html">06-29</a></li><li><a href="archive/2026-06-28.html">06-28</a></li><li><a href="archive/2026-06-27.html">06-27</a></li><li><a href="archive/2026-06-23.html">06-23</a></li><li><a href="archive/2026-06-22.html">06-22</a></li><li><a href="archive/2026-06-19.html">06-19</a></li></ul>
+<ul><li><a class="latest" href="archive/2026-08-23.html">08-23</a></li><li><a href="archive/2026-08-22.html">08-22</a></li><li><a href="archive/2026-08-21.html">08-21</a></li><li><a href="archive/2026-08-20.html">08-20</a></li><li><a href="archive/2026-08-19.html">08-19</a></li><li><a href="archive/2026-08-18.html">08-18</a></li><li><a href="archive/2026-08-17.html">08-17</a></li><li><a href="archive/2026-08-16.html">08-16</a></li><li><a href="archive/2026-08-15.html">08-15</a></li><li><a href="archive/2026-08-13.html">08-13</a></li><li><a href="archive/2026-08-12.html">08-12</a></li><li><a href="archive/2026-08-11.html">08-11</a></li><li><a href="archive/2026-08-10.html">08-10</a></li><li><a href="archive/2026-08-09.html">08-09</a></li><li><a href="archive/2026-08-07.html">08-07</a></li><li><a href="archive/2026-08-06.html">08-06</a></li><li><a href="archive/2026-08-05.html">08-05</a></li><li><a href="archive/2026-08-03.html">08-03</a></li><li><a href="archive/2026-08-02.html">08-02</a></li><li><a href="archive/2026-07-31.html">07-31</a></li><li><a href="archive/2026-07-30.html">07-30</a></li><li><a href="archive/2026-07-29.html">07-29</a></li><li><a href="archive/2026-07-28.html">07-28</a></li><li><a href="archive/2026-07-27.html">07-27</a></li><li><a href="archive/2026-07-26.html">07-26</a></li><li><a href="archive/2026-07-25.html">07-25</a></li><li><a href="archive/2026-07-23.html">07-23</a></li><li><a href="archive/2026-07-22.html">07-22</a></li><li><a href="archive/2026-07-21.html">07-21</a></li><li><a href="archive/2026-07-20.html">07-20</a></li><li><a href="archive/2026-07-19.html">07-19</a></li><li><a href="archive/2026-07-18.html">07-18</a></li><li><a href="archive/2026-07-17.html">07-17</a></li><li><a href="archive/2026-07-16.html">07-16</a></li><li><a href="archive/2026-07-15.html">07-15</a></li><li><a href="archive/2026-07-14.html">07-14</a></li><li><a href="archive/2026-07-13.html">07-13</a></li><li><a href="archive/2026-07-12.html">07-12</a></li><li><a href="archive/2026-07-11.html">07-11</a></li><li><a href="archive/2026-07-10.html">07-10</a></li><li><a href="archive/2026-07-09.html">07-09</a></li><li><a href="archive/2026-07-08.html">07-08</a></li><li><a href="archive/2026-07-07.html">07-07</a></li><li><a href="archive/2026-07-06.html">07-06</a></li><li><a href="archive/2026-07-05.html">07-05</a></li><li><a href="archive/2026-07-04.html">07-04</a></li><li><a href="archive/2026-07-02.html">07-02</a></li><li><a href="archive/2026-06-29.html">06-29</a></li><li><a href="archive/2026-06-28.html">06-28</a></li><li><a href="archive/2026-06-27.html">06-27</a></li><li><a href="archive/2026-06-23.html">06-23</a></li><li><a href="archive/2026-06-22.html">06-22</a></li><li><a href="archive/2026-06-19.html">06-19</a></li></ul>
 </nav>
 
 </main>

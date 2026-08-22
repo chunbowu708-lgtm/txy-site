@@ -22,6 +22,13 @@ body { margin:0; background:var(--paper); color:var(--ink); font-family:var(--sa
        font-size:15.5px; line-height:1.75;
        background-image:repeating-linear-gradient(0deg,transparent 0 23px,rgba(60,50,20,.014) 23px 24px); }
 .wrap { max-width:720px; margin:0 auto; padding:0 18px 56px; }
+@media (min-width:1180px) {
+  .wrap { max-width:1000px; padding:0 28px 64px; }
+  /* 桌面双栏：市场温度 + 鱼盆趋势并排，像日报两栏 */
+  .duo { display:grid; grid-template-columns:1fr 1fr; gap:22px; align-items:start; }
+  .duo > * { min-width:0; }
+  .duo .quad-grid { grid-template-columns:1fr; }
+}
 
 /* ---------- 报头 ---------- */
 header.mast { padding:26px 0 12px; border-bottom:3px double var(--rule); margin-bottom:6px; }
@@ -73,6 +80,75 @@ section.decision { margin:20px 0 6px; padding:18px 18px 14px; background:var(--c
                       background:var(--paper); opacity:.82; margin-left:var(--w,0%);
                       transition:margin .6s ease; }
 .temp-sub { margin-top:8px; font-size:12.5px; color:var(--muted); line-height:1.8; }
+
+/* ---------- 温度计副指标：维度网格 / 轮动分化行 / 定调 / 置信度 ---------- */
+.dims { display:grid; grid-template-columns:repeat(4,1fr); gap:5px 10px; margin-top:12px; }
+.dim { display:flex; align-items:baseline; justify-content:space-between; gap:6px;
+        background:rgba(60,50,20,.045); border:1px solid var(--line); padding:4px 8px;
+        font-size:11.5px; line-height:1.4; }
+.dim-name { color:var(--muted); letter-spacing:.03em; }
+.dim-val { font-family:var(--mono); font-weight:700; color:var(--ink); }
+.mkts { margin-top:9px; display:flex; flex-direction:column; gap:5px; }
+.mktline { display:flex; gap:8px; align-items:baseline; font-size:12.5px; line-height:1.6;
+            background:var(--card); border:1px solid var(--line); padding:5px 9px; }
+.mktline b { flex:0 0 auto; color:var(--red-ink); font-weight:700; letter-spacing:.12em; }
+.verdict { margin-top:10px; padding:8px 11px; background:var(--card); border:1px dashed var(--rule);
+            font-size:13px; line-height:1.7; }
+.confidence { margin-top:8px; font-size:12px; color:var(--muted); }
+.confidence::before { content:"●"; color:var(--green); margin-right:5px; font-size:9px;
+                       vertical-align:1px; }
+
+/* ---------- 信息分块卡（市场温度 / 鱼盆） ---------- */
+.quad-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:12px 0 4px; }
+.qcard { background:var(--card); border:1px solid var(--line); padding:10px 12px;
+          min-width:0; }
+.qcard .ql { display:block; font-size:11px; color:var(--muted); letter-spacing:.28em;
+              margin-bottom:5px; }
+.qcard .qb { font-size:13.5px; line-height:1.65; }
+.qcard.warn { grid-column:1 / -1; border-left:3px solid var(--amber); background:var(--amber-soft);
+               border-top-color:var(--line); border-bottom-color:var(--line); border-right-color:var(--line);
+               color:#7a4a08; font-size:13px; }
+.qcard.adv { border-left:3px solid var(--green); color:#2c5e42; }
+.qcard.adv .ql { color:#2c5e42; }
+.qchips { display:flex; flex-wrap:wrap; gap:4px 6px; }
+.qchip { font-size:12px; padding:2px 7px; background:rgba(60,50,20,.05);
+          border:1px solid var(--line); white-space:nowrap; }
+.qchip b { margin-left:4px; font-family:var(--mono); color:var(--red-ink); }
+.ships { display:flex; gap:10px; margin:12px 0; }
+.ship { flex:1; background:var(--card); border:1px solid var(--line); padding:9px 12px;
+         text-align:center; }
+.ship .n { display:block; font-family:var(--serif); font-size:26px; font-weight:900;
+            line-height:1.1; }
+.ship .l { font-size:11px; color:var(--muted); letter-spacing:.3em; margin-top:3px; }
+.ship.on .n { color:var(--red-ink); }
+.ship.off .n { color:var(--green); }
+.panels { display:flex; flex-direction:column; gap:9px; margin:4px 0 4px; }
+.panel { padding:9px 12px; border:1px solid var(--line); background:var(--card); }
+.panel p { margin:0; display:flex; flex-wrap:wrap; gap:4px 6px; align-items:baseline; }
+.panel .pl { flex:0 0 auto; font-weight:700; font-size:12.5px; letter-spacing:.2em; }
+.panel.g { border-left:3px solid var(--green); }
+.panel.g .pl { color:var(--green); }
+.panel.r { border-left:3px solid var(--red); }
+.panel.r .pl { color:var(--red-ink); }
+.pchip { font-size:12px; padding:2px 8px; border:1px solid var(--line); white-space:nowrap; }
+.panel.g .pchip { background:var(--green-soft); border-color:#c4dccb; color:#2c5e42; }
+.panel.r .pchip { background:var(--red-soft); border-color:#e3c2be; color:var(--red-ink); }
+.sec-sub { display:block; font-size:12.5px; color:var(--muted); font-weight:400;
+            letter-spacing:.05em; margin-top:2px; }
+
+/* ---------- 信号雷达统计条 ---------- */
+.scanstats { display:flex; flex-wrap:wrap; gap:6px; align-items:center; margin:10px 0 2px; }
+.sstat { font-size:12px; padding:3px 9px; border:1px solid var(--line); background:var(--card); }
+.sstat b { font-family:var(--mono); font-size:13.5px; margin:0 2px; }
+.sstat.opp { border-color:#d9a7a2; background:var(--red-soft); color:var(--red-ink); }
+.sstat.risk { border-color:#a8cbb8; background:var(--green-soft); color:#2c5e42; }
+.sstat.full { color:var(--muted); border-color:var(--rule); }
+
+@media (max-width:600px) {
+  .dims { grid-template-columns:repeat(2,1fr); }
+  .quad-grid { grid-template-columns:1fr; }
+  .qcard.warn { grid-column:auto; }
+}
 
 /* ---------- 正文 ---------- */
 main { display:block; }
@@ -192,12 +268,12 @@ footer a { color:var(--muted); }
 <header class="mast">
   <div class="mast-top">
     <a class="brand" href="/txy-site/">投小研<small>每 日 简 报</small></a>
-    <div class="mast-meta"><b>2026年7月5日 · 周日</b>第 52 期 · 数据仅供个人参考</div>
+    <div class="mast-meta"><b>2026年7月5日 · 周日</b>第 53 期 · 数据仅供个人参考</div>
   </div>
   <div class="hactions">
     <a class="dash" href="/txy-site/app/">📊 仪表盘</a>
     <select onchange="if(this.value)location.href=this.value" aria-label="选择日期">
-    <option value="">📅 往期…</option><option value="archive/2026-08-22.html">2026-08-22</option><option value="archive/2026-08-21.html">2026-08-21</option><option value="archive/2026-08-20.html">2026-08-20</option><option value="archive/2026-08-19.html">2026-08-19</option><option value="archive/2026-08-18.html">2026-08-18</option><option value="archive/2026-08-17.html">2026-08-17</option><option value="archive/2026-08-16.html">2026-08-16</option><option value="archive/2026-08-15.html">2026-08-15</option><option value="archive/2026-08-13.html">2026-08-13</option><option value="archive/2026-08-12.html">2026-08-12</option><option value="archive/2026-08-11.html">2026-08-11</option><option value="archive/2026-08-10.html">2026-08-10</option><option value="archive/2026-08-09.html">2026-08-09</option><option value="archive/2026-08-07.html">2026-08-07</option><option value="archive/2026-08-06.html">2026-08-06</option><option value="archive/2026-08-05.html">2026-08-05</option><option value="archive/2026-08-03.html">2026-08-03</option><option value="archive/2026-08-02.html">2026-08-02</option><option value="archive/2026-07-31.html">2026-07-31</option><option value="archive/2026-07-30.html">2026-07-30</option><option value="archive/2026-07-29.html">2026-07-29</option><option value="archive/2026-07-28.html">2026-07-28</option><option value="archive/2026-07-27.html">2026-07-27</option><option value="archive/2026-07-26.html">2026-07-26</option><option value="archive/2026-07-25.html">2026-07-25</option><option value="archive/2026-07-23.html">2026-07-23</option><option value="archive/2026-07-22.html">2026-07-22</option><option value="archive/2026-07-21.html">2026-07-21</option><option value="archive/2026-07-20.html">2026-07-20</option><option value="archive/2026-07-19.html">2026-07-19</option><option value="archive/2026-07-18.html">2026-07-18</option><option value="archive/2026-07-17.html">2026-07-17</option><option value="archive/2026-07-16.html">2026-07-16</option><option value="archive/2026-07-15.html">2026-07-15</option><option value="archive/2026-07-14.html">2026-07-14</option><option value="archive/2026-07-13.html">2026-07-13</option><option value="archive/2026-07-12.html">2026-07-12</option><option value="archive/2026-07-11.html">2026-07-11</option><option value="archive/2026-07-10.html">2026-07-10</option><option value="archive/2026-07-09.html">2026-07-09</option><option value="archive/2026-07-08.html">2026-07-08</option><option value="archive/2026-07-07.html">2026-07-07</option><option value="archive/2026-07-06.html">2026-07-06</option><option value="archive/2026-07-05.html" selected>2026-07-05</option><option value="archive/2026-07-04.html">2026-07-04</option><option value="archive/2026-07-02.html">2026-07-02</option><option value="archive/2026-06-29.html">2026-06-29</option><option value="archive/2026-06-28.html">2026-06-28</option><option value="archive/2026-06-27.html">2026-06-27</option><option value="archive/2026-06-23.html">2026-06-23</option><option value="archive/2026-06-22.html">2026-06-22</option><option value="archive/2026-06-19.html">2026-06-19</option>
+    <option value="">📅 往期…</option><option value="archive/2026-08-23.html">2026-08-23</option><option value="archive/2026-08-22.html">2026-08-22</option><option value="archive/2026-08-21.html">2026-08-21</option><option value="archive/2026-08-20.html">2026-08-20</option><option value="archive/2026-08-19.html">2026-08-19</option><option value="archive/2026-08-18.html">2026-08-18</option><option value="archive/2026-08-17.html">2026-08-17</option><option value="archive/2026-08-16.html">2026-08-16</option><option value="archive/2026-08-15.html">2026-08-15</option><option value="archive/2026-08-13.html">2026-08-13</option><option value="archive/2026-08-12.html">2026-08-12</option><option value="archive/2026-08-11.html">2026-08-11</option><option value="archive/2026-08-10.html">2026-08-10</option><option value="archive/2026-08-09.html">2026-08-09</option><option value="archive/2026-08-07.html">2026-08-07</option><option value="archive/2026-08-06.html">2026-08-06</option><option value="archive/2026-08-05.html">2026-08-05</option><option value="archive/2026-08-03.html">2026-08-03</option><option value="archive/2026-08-02.html">2026-08-02</option><option value="archive/2026-07-31.html">2026-07-31</option><option value="archive/2026-07-30.html">2026-07-30</option><option value="archive/2026-07-29.html">2026-07-29</option><option value="archive/2026-07-28.html">2026-07-28</option><option value="archive/2026-07-27.html">2026-07-27</option><option value="archive/2026-07-26.html">2026-07-26</option><option value="archive/2026-07-25.html">2026-07-25</option><option value="archive/2026-07-23.html">2026-07-23</option><option value="archive/2026-07-22.html">2026-07-22</option><option value="archive/2026-07-21.html">2026-07-21</option><option value="archive/2026-07-20.html">2026-07-20</option><option value="archive/2026-07-19.html">2026-07-19</option><option value="archive/2026-07-18.html">2026-07-18</option><option value="archive/2026-07-17.html">2026-07-17</option><option value="archive/2026-07-16.html">2026-07-16</option><option value="archive/2026-07-15.html">2026-07-15</option><option value="archive/2026-07-14.html">2026-07-14</option><option value="archive/2026-07-13.html">2026-07-13</option><option value="archive/2026-07-12.html">2026-07-12</option><option value="archive/2026-07-11.html">2026-07-11</option><option value="archive/2026-07-10.html">2026-07-10</option><option value="archive/2026-07-09.html">2026-07-09</option><option value="archive/2026-07-08.html">2026-07-08</option><option value="archive/2026-07-07.html">2026-07-07</option><option value="archive/2026-07-06.html">2026-07-06</option><option value="archive/2026-07-05.html" selected>2026-07-05</option><option value="archive/2026-07-04.html">2026-07-04</option><option value="archive/2026-07-02.html">2026-07-02</option><option value="archive/2026-06-29.html">2026-06-29</option><option value="archive/2026-06-28.html">2026-06-28</option><option value="archive/2026-06-27.html">2026-06-27</option><option value="archive/2026-06-23.html">2026-06-23</option><option value="archive/2026-06-22.html">2026-06-22</option><option value="archive/2026-06-19.html">2026-06-19</option>
     </select>
   </div>
 </header>
@@ -208,22 +284,7 @@ footer a { color:var(--muted); }
   <p>⚠️ 数据质量：中（大盘为缓存快照（行情源未刷新）；大盘数据为最近快照）</p>
 </blockquote></section>
 
-<h2>市场温度：情绪偏强，活跃</h2>
-
-<ul>
-<li>大盘：上证指数+0.37% 深证成指+0.64% 创业板指+0.07% 科创50-0.59%</li>
-<li>量能：3.19万亿（缩量7.7%，-2668亿）</li>
-<li>⚠️ 跌停 19 家，亏钱效应需要优先看。</li>
-<li><strong>建议</strong>：可看前排</li>
-</ul>
-
-<h2>鱼盆趋势</h2>
-
-<ul>
-<li>船上 13 / 掉车 22</li>
-<li>🟢 可关注：科创50、日经225、道琼斯、中证500、标普500</li>
-<li>🔴 需回避：白银现货、国企指数、恒生科技、恒生指数、黄金现货</li>
-</ul>
+<div class="duo"><section class="duo-item"><h2>市场温度<span class="sec-sub">情绪偏强，活跃</span></h2><div class="quad-grid"><div class="qcard"><span class="ql">大盘</span><div class="qchips"><span class="qchip">上证指数<b>+0.37%</b></span><span class="qchip">深证成指<b>+0.64%</b></span><span class="qchip">创业板指<b>+0.07%</b></span><span class="qchip">科创50<b>-0.59%</b></span></div></div><div class="qcard"><span class="ql">量能</span><div class="qb">3.19万亿（缩量7.7%，-2668亿）</div></div><div class="qcard warn"><div class="qb">⚠️ 跌停 19 家，亏钱效应需要优先看。</div></div><div class="qcard adv"><span class="ql">建议</span><div class="qb">可看前排</div></div></div></section><section class="duo-item"><h2>鱼盆趋势</h2><div class="ships"><div class="ship on"><span class="n">13</span><span class="l">船上</span></div><div class="ship off"><span class="n">22</span><span class="l">掉车</span></div></div><div class="panels"><div class="panel g"><p><span class="pl">可关注</span><span class="pchip">科创50</span><span class="pchip">日经225</span><span class="pchip">道琼斯</span><span class="pchip">中证500</span><span class="pchip">标普500</span></p></div><div class="panel r"><p><span class="pl">需回避</span><span class="pchip">白银现货</span><span class="pchip">国企指数</span><span class="pchip">恒生科技</span><span class="pchip">恒生指数</span><span class="pchip">黄金现货</span></p></div></div></section></div>
 
 <h2>今日机会（0 只）</h2>
 
@@ -243,7 +304,7 @@ footer a { color:var(--muted); }
 </article>
 <nav class="daylist">
 <h2>往 期</h2>
-<ul><li><a class="latest" href="archive/2026-08-22.html">08-22</a></li><li><a href="archive/2026-08-21.html">08-21</a></li><li><a href="archive/2026-08-20.html">08-20</a></li><li><a href="archive/2026-08-19.html">08-19</a></li><li><a href="archive/2026-08-18.html">08-18</a></li><li><a href="archive/2026-08-17.html">08-17</a></li><li><a href="archive/2026-08-16.html">08-16</a></li><li><a href="archive/2026-08-15.html">08-15</a></li><li><a href="archive/2026-08-13.html">08-13</a></li><li><a href="archive/2026-08-12.html">08-12</a></li><li><a href="archive/2026-08-11.html">08-11</a></li><li><a href="archive/2026-08-10.html">08-10</a></li><li><a href="archive/2026-08-09.html">08-09</a></li><li><a href="archive/2026-08-07.html">08-07</a></li><li><a href="archive/2026-08-06.html">08-06</a></li><li><a href="archive/2026-08-05.html">08-05</a></li><li><a href="archive/2026-08-03.html">08-03</a></li><li><a href="archive/2026-08-02.html">08-02</a></li><li><a href="archive/2026-07-31.html">07-31</a></li><li><a href="archive/2026-07-30.html">07-30</a></li><li><a href="archive/2026-07-29.html">07-29</a></li><li><a href="archive/2026-07-28.html">07-28</a></li><li><a href="archive/2026-07-27.html">07-27</a></li><li><a href="archive/2026-07-26.html">07-26</a></li><li><a href="archive/2026-07-25.html">07-25</a></li><li><a href="archive/2026-07-23.html">07-23</a></li><li><a href="archive/2026-07-22.html">07-22</a></li><li><a href="archive/2026-07-21.html">07-21</a></li><li><a href="archive/2026-07-20.html">07-20</a></li><li><a href="archive/2026-07-19.html">07-19</a></li><li><a href="archive/2026-07-18.html">07-18</a></li><li><a href="archive/2026-07-17.html">07-17</a></li><li><a href="archive/2026-07-16.html">07-16</a></li><li><a href="archive/2026-07-15.html">07-15</a></li><li><a href="archive/2026-07-14.html">07-14</a></li><li><a href="archive/2026-07-13.html">07-13</a></li><li><a href="archive/2026-07-12.html">07-12</a></li><li><a href="archive/2026-07-11.html">07-11</a></li><li><a href="archive/2026-07-10.html">07-10</a></li><li><a href="archive/2026-07-09.html">07-09</a></li><li><a href="archive/2026-07-08.html">07-08</a></li><li><a href="archive/2026-07-07.html">07-07</a></li><li><a href="archive/2026-07-06.html">07-06</a></li><li><a href="archive/2026-07-05.html">07-05</a></li><li><a href="archive/2026-07-04.html">07-04</a></li><li><a href="archive/2026-07-02.html">07-02</a></li><li><a href="archive/2026-06-29.html">06-29</a></li><li><a href="archive/2026-06-28.html">06-28</a></li><li><a href="archive/2026-06-27.html">06-27</a></li><li><a href="archive/2026-06-23.html">06-23</a></li><li><a href="archive/2026-06-22.html">06-22</a></li><li><a href="archive/2026-06-19.html">06-19</a></li></ul>
+<ul><li><a class="latest" href="archive/2026-08-23.html">08-23</a></li><li><a href="archive/2026-08-22.html">08-22</a></li><li><a href="archive/2026-08-21.html">08-21</a></li><li><a href="archive/2026-08-20.html">08-20</a></li><li><a href="archive/2026-08-19.html">08-19</a></li><li><a href="archive/2026-08-18.html">08-18</a></li><li><a href="archive/2026-08-17.html">08-17</a></li><li><a href="archive/2026-08-16.html">08-16</a></li><li><a href="archive/2026-08-15.html">08-15</a></li><li><a href="archive/2026-08-13.html">08-13</a></li><li><a href="archive/2026-08-12.html">08-12</a></li><li><a href="archive/2026-08-11.html">08-11</a></li><li><a href="archive/2026-08-10.html">08-10</a></li><li><a href="archive/2026-08-09.html">08-09</a></li><li><a href="archive/2026-08-07.html">08-07</a></li><li><a href="archive/2026-08-06.html">08-06</a></li><li><a href="archive/2026-08-05.html">08-05</a></li><li><a href="archive/2026-08-03.html">08-03</a></li><li><a href="archive/2026-08-02.html">08-02</a></li><li><a href="archive/2026-07-31.html">07-31</a></li><li><a href="archive/2026-07-30.html">07-30</a></li><li><a href="archive/2026-07-29.html">07-29</a></li><li><a href="archive/2026-07-28.html">07-28</a></li><li><a href="archive/2026-07-27.html">07-27</a></li><li><a href="archive/2026-07-26.html">07-26</a></li><li><a href="archive/2026-07-25.html">07-25</a></li><li><a href="archive/2026-07-23.html">07-23</a></li><li><a href="archive/2026-07-22.html">07-22</a></li><li><a href="archive/2026-07-21.html">07-21</a></li><li><a href="archive/2026-07-20.html">07-20</a></li><li><a href="archive/2026-07-19.html">07-19</a></li><li><a href="archive/2026-07-18.html">07-18</a></li><li><a href="archive/2026-07-17.html">07-17</a></li><li><a href="archive/2026-07-16.html">07-16</a></li><li><a href="archive/2026-07-15.html">07-15</a></li><li><a href="archive/2026-07-14.html">07-14</a></li><li><a href="archive/2026-07-13.html">07-13</a></li><li><a href="archive/2026-07-12.html">07-12</a></li><li><a href="archive/2026-07-11.html">07-11</a></li><li><a href="archive/2026-07-10.html">07-10</a></li><li><a href="archive/2026-07-09.html">07-09</a></li><li><a href="archive/2026-07-08.html">07-08</a></li><li><a href="archive/2026-07-07.html">07-07</a></li><li><a href="archive/2026-07-06.html">07-06</a></li><li><a href="archive/2026-07-05.html">07-05</a></li><li><a href="archive/2026-07-04.html">07-04</a></li><li><a href="archive/2026-07-02.html">07-02</a></li><li><a href="archive/2026-06-29.html">06-29</a></li><li><a href="archive/2026-06-28.html">06-28</a></li><li><a href="archive/2026-06-27.html">06-27</a></li><li><a href="archive/2026-06-23.html">06-23</a></li><li><a href="archive/2026-06-22.html">06-22</a></li><li><a href="archive/2026-06-19.html">06-19</a></li></ul>
 </nav>
 
 </main>
