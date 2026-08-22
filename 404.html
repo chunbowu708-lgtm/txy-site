@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>投小研</title>
+<script>
+  // GitHub Pages 无服务器路由：未知路径统一送入 /app/ 由前端路由接管
+  (function (l) {
+    var path = l.pathname.replace(/^\/txy-site\/?/, '');
+    l.replace('/txy-site/app/?p=' + encodeURIComponent('/app/' + path + l.search + l.hash));
+  })(window.location);
+</script>
+</head>
+<body></body>
+</html>
