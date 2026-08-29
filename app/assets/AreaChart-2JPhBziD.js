@@ -1,1 +1,0 @@
-import{r as a}from"./index-DTboSwEl.js";import{a5 as t}from"./CategoricalChart-Im_cNVHM.js";import{C as o}from"./CartesianChart-DOtEs9wn.js";var p=["axis"],m=a.forwardRef((r,e)=>a.createElement(o,{chartName:"AreaChart",defaultTooltipEventType:"axis",validateTooltipEventTypes:p,tooltipPayloadSearcher:t,categoricalChartProps:r,ref:e}));export{m as A};
