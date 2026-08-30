@@ -25,6 +25,25 @@
     }
   }
 
+  // --- 静态资源路径重定向（2026-08-30）---
+  // 前端用绝对路径 fetch('/stocks.index.json')；在 GitHub Pages 子路径下会 404，
+  // 白名单改写到 /txy-site/app/（与 assemble_site 的 index.html 资源改写同一原则）。
+  var ASSET_PATH_PREFIXES = ['/stocks.index.json'];
+  function assetUrl(url) {
+    try {
+      var u = new URL(url, location.origin);
+      if (u.origin !== location.origin) return null;
+      for (var i = 0; i < ASSET_PATH_PREFIXES.length; i++) {
+        if (u.pathname.indexOf(ASSET_PATH_PREFIXES[i]) === 0) {
+          return '/txy-site/app' + u.pathname + u.search;
+        }
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
   // --- XMLHttpRequest（axios 默认通道）---
   var nativeOpen = XMLHttpRequest.prototype.open;
   XMLHttpRequest.prototype.open = function (method, url) {
@@ -57,6 +76,10 @@
             })
           );
         }
+      }
+      if (url) {
+        var asset = assetUrl(url);
+        if (asset) return nativeFetch(asset, init);
       }
       return nativeFetch.apply(this, arguments);
     };
